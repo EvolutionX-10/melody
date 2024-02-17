@@ -1,9 +1,10 @@
 {
 	"name": "melody",
 	"version": "1.0.0",
-	"main": "src/index.js",
+	"main": "dist/index.js",
 	"type": "module",
 	"scripts": {
+		"start": "node --no-warnings --env-file .env dist/index.js",
 		"dev": "yarn build && node --no-warnings --env-file .env dist/index.js",
 		"build": "tsup",
 		"watch": "tsup --watch --onSuccess \"node --no-warnings --env-file .env dist/index.js\""
