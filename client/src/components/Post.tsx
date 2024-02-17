@@ -3,18 +3,40 @@ import { Post as PType } from "@/lib/types/Post";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Pencil1Icon, TrashIcon } from "@radix-ui/react-icons";
-import { authFetch } from "@/lib/utils";
+import { authFetch, cn } from "@/lib/utils";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
-import { useState } from "react";
+import { ComponentProps, useState } from "react";
+import { useMediaQuery } from "@/hooks/use-media-query";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Form, FormControl, FormField, FormItem, FormMessage } from "./ui/form";
+import { Input } from "@/components/ui/input";
+import {
+	Dialog,
+	DialogContent,
+	DialogDescription,
+	DialogHeader,
+	DialogTitle,
+	DialogTrigger,
+} from "@/components/ui/dialog";
+import {
+	Drawer,
+	DrawerClose,
+	DrawerContent,
+	DrawerDescription,
+	DrawerFooter,
+	DrawerHeader,
+	DrawerTitle,
+	DrawerTrigger,
+} from "@/components/ui/drawer";
 
 export function Post(props: Props) {
 	const navigate = useNavigate();
+	const [open, setOpen] = useState(false);
+	const isDesktop = useMediaQuery("(min-width: 768px)");
 	const date = new Date(props.createdAt).toLocaleDateString();
-
-	async function onEdit() {
-		console.log(`editing post ${props.id}`);
-	}
 
 	async function onDelete() {
 		await authFetch(
@@ -33,7 +55,6 @@ export function Post(props: Props) {
 			initial={{ opacity: 0, y: 100 }}
 			whileInView={{ opacity: 1, y: 0 }}
 			key={props.id}
-			// viewport={{ once: true }}
 			transition={{ duration: 0.5, type: "spring", stiffness: 100 }}
 		>
 			<Card>
@@ -41,9 +62,42 @@ export function Post(props: Props) {
 					<CardTitle className="text-xl flex items-center justify-between">
 						<span>{props.title}</span>
 						<div className="flex items-center justify-center gap-2">
-							<Button variant="outline" size="icon" onClick={onEdit}>
-								<Pencil1Icon className="scale-125" />
-							</Button>
+							{isDesktop ? (
+								<Dialog open={open} onOpenChange={setOpen}>
+									<DialogTrigger asChild>
+										<Button variant="outline" size="icon">
+											<Pencil1Icon className="scale-125" />
+										</Button>
+									</DialogTrigger>
+									<DialogContent className="sm:max-w-[425px]">
+										<DialogHeader>
+											<DialogTitle>Edit Post</DialogTitle>
+											{/* <DialogDescription></DialogDescription> */}
+										</DialogHeader>
+										<EditForm {...props} setOpen={setOpen} />
+									</DialogContent>
+								</Dialog>
+							) : (
+								<Drawer open={open} onOpenChange={setOpen}>
+									<DrawerTrigger asChild>
+										<Button variant="outline" size="icon">
+											<Pencil1Icon className="scale-125" />
+										</Button>
+									</DrawerTrigger>
+									<DrawerContent>
+										<DrawerHeader className="text-left">
+											<DrawerTitle>Edit Post</DrawerTitle>
+											{/* <DrawerDescription></DrawerDescription> */}
+										</DrawerHeader>
+										<EditForm {...props} setOpen={setOpen} className="px-4" />
+										<DrawerFooter className="pt-2">
+											<DrawerClose asChild>
+												<Button variant="outline">Cancel</Button>
+											</DrawerClose>
+										</DrawerFooter>
+									</DrawerContent>
+								</Drawer>
+							)}
 							<Button variant="outline" size="icon" onClick={onDelete}>
 								<TrashIcon className="scale-125" />
 							</Button>
@@ -56,6 +110,92 @@ export function Post(props: Props) {
 				</CardContent>
 			</Card>
 		</motion.div>
+	);
+}
+
+const formSchema = z.object({
+	title: z.string().min(1, {
+		message: "Title is required",
+	}),
+	content: z.string().min(1, {
+		message: "Content is required",
+	}),
+});
+
+function EditForm(
+	props: ComponentProps<"form"> &
+		PType & {
+			setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+			setCount: React.Dispatch<React.SetStateAction<number>>;
+		}
+) {
+	const navigate = useNavigate();
+	const form = useForm<z.infer<typeof formSchema>>({
+		resolver: zodResolver(formSchema),
+		defaultValues: {
+			title: props.title,
+			content: props.content,
+		},
+	});
+
+	async function onSubmit(values: z.infer<typeof formSchema>) {
+		const data = await authFetch(
+			`/posts/${props.id}`,
+			{
+				method: "PUT",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(values),
+			},
+			navigate
+		);
+
+		if (data) {
+			toast.success("Post updated successfully");
+		} else {
+			toast.error("Failed to update post");
+		}
+		props.setOpen(false);
+		props.setCount((c) => c + 1);
+	}
+
+	return (
+		<Form {...form}>
+			<form onSubmit={form.handleSubmit(onSubmit)} className={cn(props.className, "space-y-8 w-full")}>
+				<FormField
+					name="title"
+					control={form.control}
+					render={({ field }) => {
+						return (
+							<FormItem className="w-full">
+								<FormControl>
+									<Input placeholder="Title" {...field} />
+								</FormControl>
+								<FormMessage />
+							</FormItem>
+						);
+					}}
+				/>
+				<FormField
+					name="content"
+					control={form.control}
+					render={({ field }) => {
+						return (
+							<FormItem className="w-full">
+								<FormControl>
+									<Input placeholder="Content" {...field} />
+								</FormControl>
+								<FormMessage />
+							</FormItem>
+						);
+					}}
+				/>
+				<Button type="submit" className="w-full">
+					Update Post
+				</Button>
+			</form>
+		</Form>
 	);
 }
 
