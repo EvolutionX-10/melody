@@ -14,7 +14,11 @@
 				},
 				{
 					"key": "Access-Control-Allow-Headers",
-					"value": "Origin, X-Requested-With, Content-Type, Accept"
+					"value": "Access-Control-Allow-Headers, Origin, Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers"
+				},
+				{
+					"key": "Access-Control-Allow-Methods",
+					"value": "GET,HEAD,OPTIONS,POST,PUT"
 				}
 			]
 		}
