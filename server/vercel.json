@@ -3,7 +3,7 @@
 	"headers": [
 		{
 			"source": "/api/(.*)",
-			"headers": [{ "key": "Access-Control-Allow-Origin", "value": "https://melody-five.vercel.app" }]
+			"headers": [{ "key": "Access-Control-Allow-Origin", "value": "true" }]
 		}
 	]
 }
