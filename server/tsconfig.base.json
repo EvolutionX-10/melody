@@ -1,0 +1,9 @@
+{
+	"compilerOptions": {
+		"lib": ["ESNext"],
+		"target": "ESNext",
+		"module": "ESNext",
+		"types": ["node"]
+	},
+	"include": ["src", "tsup.config.ts"]
+}

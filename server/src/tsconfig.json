@@ -1,0 +1,18 @@
+{
+	"extends": "../tsconfig.base.json",
+	"compilerOptions": {
+		"experimentalDecorators": true,
+		"allowJs": true,
+		"outDir": "../dist",
+		"rootDir": ".",
+		"baseUrl": ".",
+		"paths": {
+			"@/*": ["*"]
+		},
+		"noEmit": true,
+		"skipLibCheck": true,
+		"moduleResolution": "NodeNext",
+		"module": "NodeNext"
+	},
+	"include": ["."]
+}
