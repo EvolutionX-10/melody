@@ -13,11 +13,14 @@ export async function refreshAccessToken(navigate: Function) {
 	});
 	if (res.status === 200) {
 		const data = await res.json();
-		Cookie.set("access_token", data.access_token, { expires: 60, secure: true });
+		Cookie.set("access_token", data.access_token, { secure: true });
 		toast.success("Token Refreshed");
 		window.location.reload();
 	} else {
 		toast.error("Unauthorized");
+		if (Cookie.get("access_token")) {
+			Cookie.remove("access_token");
+		}
 		navigate("/login");
 	}
 }
