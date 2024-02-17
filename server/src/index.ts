@@ -6,6 +6,8 @@ import cookieParser from "cookie-parser";
 import bcrypt from "bcryptjs";
 import { AuthenticatedRequest } from "./types/Request.js";
 
+const EXPIRATION_TIME = 60;
+
 export const app = express();
 const prisma = new PrismaClient();
 
@@ -45,7 +47,7 @@ app.post("/api/signup", async (req, res) => {
 	await prisma.user
 		.create({ data: { email, password: hashedPassword, name } })
 		.then((user) => {
-			const access_token = jwt.sign({ email }, process.env.JWT_ACCESS_SECRET, { expiresIn: 60 });
+			const access_token = jwt.sign({ email }, process.env.JWT_ACCESS_SECRET, { expiresIn: EXPIRATION_TIME });
 			const refresh_token = jwt.sign({ email }, process.env.JWT_REFRESH_SECRET, { expiresIn: "7d" });
 
 			res.cookie("jwt", refresh_token, {
@@ -75,7 +77,7 @@ app.post("/api/login", async (req, res) => {
 		return res.status(403).json({ message: "Invalid Password or Email" });
 	}
 
-	const access_token = jwt.sign({ email }, process.env.JWT_ACCESS_SECRET, { expiresIn: 60 });
+	const access_token = jwt.sign({ email }, process.env.JWT_ACCESS_SECRET, { expiresIn: EXPIRATION_TIME });
 	const refresh_token = jwt.sign({ email }, process.env.JWT_REFRESH_SECRET, { expiresIn: "7d" });
 
 	res.cookie("jwt", refresh_token, {
@@ -102,7 +104,7 @@ app.get("/api/refresh", async (req, res) => {
 			return res.status(403).json({ message: "Invalid token" });
 		}
 
-		const access_token = jwt.sign({ email: user.email }, process.env.JWT_ACCESS_SECRET, { expiresIn: 60 });
+		const access_token = jwt.sign({ email: user.email }, process.env.JWT_ACCESS_SECRET, { expiresIn: EXPIRATION_TIME });
 
 		return res.status(200).json({ access_token });
 	});

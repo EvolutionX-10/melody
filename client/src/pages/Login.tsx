@@ -57,7 +57,7 @@ export function Login() {
 				toast.error("An error occurred");
 				break;
 		}
-		if (data.access_token) Cookie.set("access_token", data.access_token, { expires: 60, secure: true });
+		if (data.access_token) Cookie.set("access_token", data.access_token, { secure: true });
 	}
 
 	return (

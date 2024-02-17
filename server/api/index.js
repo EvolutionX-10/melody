@@ -6,6 +6,7 @@ import { PrismaClient } from "@prisma/client";
 import jwt from "jsonwebtoken";
 import cookieParser from "cookie-parser";
 import bcrypt from "bcryptjs";
+const EXPIRATION_TIME = 60;
 const app = express();
 const prisma = new PrismaClient();
 const whitelist = ["http://localhost:5173", "https://melody-five.vercel.app"];
@@ -34,7 +35,7 @@ app.post("/api/signup", async (req, res) => {
     return res.status(400).json({ message: "User already exists" });
   }
   await prisma.user.create({ data: { email, password: hashedPassword, name } }).then((user) => {
-    const access_token = jwt.sign({ email }, process.env.JWT_ACCESS_SECRET, { expiresIn: 60 });
+    const access_token = jwt.sign({ email }, process.env.JWT_ACCESS_SECRET, { expiresIn: EXPIRATION_TIME });
     const refresh_token = jwt.sign({ email }, process.env.JWT_REFRESH_SECRET, { expiresIn: "7d" });
     res.cookie("jwt", refresh_token, {
       httpOnly: true,
@@ -54,7 +55,7 @@ app.post("/api/login", async (req, res) => {
   if (!user || !validPassword) {
     return res.status(403).json({ message: "Invalid Password or Email" });
   }
-  const access_token = jwt.sign({ email }, process.env.JWT_ACCESS_SECRET, { expiresIn: 60 });
+  const access_token = jwt.sign({ email }, process.env.JWT_ACCESS_SECRET, { expiresIn: EXPIRATION_TIME });
   const refresh_token = jwt.sign({ email }, process.env.JWT_REFRESH_SECRET, { expiresIn: "7d" });
   res.cookie("jwt", refresh_token, {
     httpOnly: true,
@@ -73,7 +74,7 @@ app.get("/api/refresh", async (req, res) => {
     if (err) {
       return res.status(403).json({ message: "Invalid token" });
     }
-    const access_token = jwt.sign({ email: user.email }, process.env.JWT_ACCESS_SECRET, { expiresIn: 60 });
+    const access_token = jwt.sign({ email: user.email }, process.env.JWT_ACCESS_SECRET, { expiresIn: EXPIRATION_TIME });
     return res.status(200).json({ access_token });
   });
 });
