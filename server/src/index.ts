@@ -151,6 +151,22 @@ app.post("/api/posts", verify, async (req: AuthenticatedRequest, res) => {
 	return res.status(200).json({ message: "Post Created", post });
 });
 
+app.put("/api/posts/:id", verify, async (req: AuthenticatedRequest, res) => {
+	const post = await prisma.post.update({
+		where: { id: req.params.id },
+		data: {
+			title: req.body.title,
+			content: req.body.content,
+		},
+	});
+	return res.status(200).json({ message: "Post Updated", post });
+});
+
+app.delete("/api/posts/:id", verify, async (req: AuthenticatedRequest, res) => {
+	await prisma.post.delete({ where: { id: req.params.id } });
+	return res.status(200).json({ message: "Post Deleted" });
+});
+
 app.get("/api/logout", verify, async (req: AuthenticatedRequest, res) => {
 	res.clearCookie("jwt");
 	return res.status(200).json({ message: "Logged Out" });

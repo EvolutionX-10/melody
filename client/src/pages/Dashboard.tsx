@@ -10,6 +10,7 @@ import { PostForm, formSchema } from "@/components/PostForm";
 import type { Post as PType } from "@/lib/types/Post";
 import { Post } from "@/components/Post";
 import { z } from "zod";
+import { AnimatePresence, motion } from "framer-motion";
 
 export function Dashboard() {
 	const navigate = useNavigate();
@@ -77,9 +78,19 @@ export function Dashboard() {
 			</div>
 			{posts.length > 0 && (
 				<div className="flex flex-wrap py-24 justify-center w-full items-center gap-8 overflow-hidden">
-					{posts.map((post, id) => (
-						<Post key={id} {...post} />
-					))}
+					<AnimatePresence>
+						{posts.map((post) => (
+							<motion.div
+								layout
+								className="w-1/3 max-md:w-[80vw]"
+								animate={{ opacity: 1 }}
+								exit={{ opacity: 0, y: 100 }}
+								key={post.id}
+							>
+								<Post key={post.id} {...post} setCount={setCount} />
+							</motion.div>
+						))}
+					</AnimatePresence>
 				</div>
 			)}
 		</div>
