@@ -3,7 +3,7 @@
 	"compilerOptions": {
 		"experimentalDecorators": true,
 		"allowJs": true,
-		"outDir": "../dist",
+		"outDir": "../api",
 		"rootDir": ".",
 		"baseUrl": ".",
 		"paths": {

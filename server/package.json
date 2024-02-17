@@ -1,13 +1,13 @@
 {
 	"name": "melody",
 	"version": "1.0.0",
-	"main": "dist/index.js",
+	"main": "api/index.js",
 	"type": "module",
 	"scripts": {
-		"start": "node --no-warnings --env-file .env dist/index.js",
-		"dev": "yarn build && node --no-warnings --env-file .env dist/index.js",
+		"start": "node --no-warnings --env-file .env api/index.js",
+		"dev": "yarn build && node --no-warnings --env-file .env api/index.js",
 		"build": "tsup",
-		"watch": "tsup --watch --onSuccess \"node --no-warnings --env-file .env dist/index.js\""
+		"watch": "tsup --watch --onSuccess \"node --no-warnings --env-file .env api/index.js\""
 	},
 	"author": "EvolutionX-10",
 	"license": "MIT",
