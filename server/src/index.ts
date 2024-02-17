@@ -9,7 +9,7 @@ import { AuthenticatedRequest } from "./types/Request.js";
 const app = express();
 const prisma = new PrismaClient();
 
-const whitelist = ["http://localhost:5173"];
+const whitelist = ["http://localhost:5173", "https://melody-five.vercel.app/"];
 
 const corsOptions = {
 	credentials: true,
