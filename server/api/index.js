@@ -117,4 +117,7 @@ app.get("/api/logout", verify, async (req, res) => {
 app.listen(process.env.PORT, () => {
   console.log(`Server is running: http://localhost:${process.env.PORT}`);
 });
+export {
+  app
+};
 //# sourceMappingURL=index.js.map

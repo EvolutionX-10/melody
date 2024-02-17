@@ -63,14 +63,16 @@ export function Dashboard() {
 	}
 
 	return (
-		<div className="w-screen h-screen flex flex-col items-center justify-center">
+		<div className="w-screen flex flex-col items-center justify-center overflow-x-hidden">
 			<nav className="bg-neutral-100 p-4 flex justify-end absolute w-screen top-0">
 				<Button onClick={logout} className="text-white" variant="default">
 					Logout
 				</Button>
 			</nav>
-			<div className="flex items-center justify-center flex-col h-screen w-2/3">
-				<h1 className="text-blue-600 text-5xl font-medium py-16">Hello {user.name}</h1>
+			<div className="flex items-center justify-center flex-col w-2/3 h-screen max-md:w-[80vw]">
+				<h1 className="text-blue-600 text-5xl font-medium py-16 max-md:text-3xl text-center flex items-center justify-center">
+					Hello {user.name}
+				</h1>
 				<PostForm onSubmit={onSubmit} />
 			</div>
 			<div className="flex flex-wrap py-24 justify-center items-center gap-8">

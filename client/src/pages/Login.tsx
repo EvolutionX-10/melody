@@ -62,7 +62,7 @@ export function Login() {
 
 	return (
 		<div className="flex flex-col h-screen w-screen items-center justify-center">
-			<section className="bg-zinc-100 p-16 rounded-lg shadow-lg w-[25rem]">
+			<section className="bg-zinc-100 p-16 rounded-lg shadow-lg w-[25rem] max-md:w-[90vw] max-md:px-4">
 				<h1 className="text-blue-600 text-5xl font-medium text-center">Login</h1>
 				<div className="py-16 flex flex-col gap-4 items-center">
 					<Form {...form}>
