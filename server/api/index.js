@@ -8,7 +8,7 @@ import cookieParser from "cookie-parser";
 import bcrypt from "bcryptjs";
 const app = express();
 const prisma = new PrismaClient();
-const whitelist = ["http://localhost:5173", "https://melody-five.vercel.app/"];
+const whitelist = ["http://localhost:5173", "https://melody-five.vercel.app"];
 const corsOptions = {
   credentials: true,
   origin: (origin, callback) => {
