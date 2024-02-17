@@ -63,20 +63,20 @@ export function Dashboard() {
 	}
 
 	return (
-		<div className="w-screen flex flex-col items-center justify-center overflow-x-hidden">
-			<nav className="bg-neutral-100 p-4 flex justify-end absolute w-screen top-0">
+		<div className="w-full flex flex-col items-center justify-center">
+			<nav className="bg-neutral-100 p-4 flex justify-end absolute top-0 w-full">
 				<Button onClick={logout} className="text-white" variant="default">
 					Logout
 				</Button>
 			</nav>
-			<div className="flex items-center justify-center flex-col w-1/3 h-[30rem] max-md:w-[80vw]">
+			<div className="flex items-center justify-center flex-col w-1/3 h-[30rem] max-md:w-[80vw] overflow-x-hidden">
 				<h1 className="text-blue-600 text-5xl font-medium py-16 max-md:text-3xl text-center flex items-center justify-center">
 					Hello {user.name}
 				</h1>
 				<PostForm onSubmit={onSubmit} />
 			</div>
 			{posts.length > 0 && (
-				<div className="flex flex-wrap py-24 justify-center items-center gap-8">
+				<div className="flex flex-wrap py-24 justify-center w-full items-center gap-8 overflow-hidden">
 					{posts.map((post, id) => (
 						<Post key={id} {...post} />
 					))}

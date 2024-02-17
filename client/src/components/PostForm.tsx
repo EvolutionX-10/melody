@@ -1,12 +1,9 @@
-// generate a Post Form where user will add his post, the field should be title and content and a add button that will submit the form, do all the zod validations and if possible also send the POST request to /posts route with the above data
-import { Form, FormItem, FormLabel, FormField, FormMessage, FormControl } from "@/components/ui/form";
+import { Form, FormItem, FormField, FormMessage, FormControl } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
-import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { z } from "zod";
-import { authFetch } from "@/lib/utils";
-import { useNavigate } from "react-router-dom";
 import { Input } from "./ui/input";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 export const formSchema = z.object({
 	title: z.string().min(1, {
@@ -19,6 +16,7 @@ export const formSchema = z.object({
 
 export function PostForm(props: Props) {
 	const form = useForm<z.infer<typeof formSchema>>({
+		resolver: zodResolver(formSchema),
 		defaultValues: {
 			title: "",
 			content: "",
