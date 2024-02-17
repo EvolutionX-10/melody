@@ -69,15 +69,19 @@ export function Dashboard() {
 					Logout
 				</Button>
 			</nav>
-			<div className="flex items-center justify-center flex-col w-2/3 h-screen max-md:w-[80vw]">
+			<div className="flex items-center justify-center flex-col w-1/3 h-[30rem] max-md:w-[80vw]">
 				<h1 className="text-blue-600 text-5xl font-medium py-16 max-md:text-3xl text-center flex items-center justify-center">
 					Hello {user.name}
 				</h1>
 				<PostForm onSubmit={onSubmit} />
 			</div>
-			<div className="flex flex-wrap py-24 justify-center items-center gap-8">
-				{posts.length > 0 && posts.map((post, id) => <Post key={id} {...post} />)}
-			</div>
+			{posts.length > 0 && (
+				<div className="flex flex-wrap py-24 justify-center items-center gap-8">
+					{posts.map((post, id) => (
+						<Post key={id} {...post} />
+					))}
+				</div>
+			)}
 		</div>
 	);
 }
