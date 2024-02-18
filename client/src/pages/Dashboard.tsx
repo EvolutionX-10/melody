@@ -36,7 +36,7 @@ export function Dashboard() {
 
 	useEffect(() => {
 		getPosts();
-	}, [count]);
+	}, [count, user]);
 
 	async function onSubmit(values: z.infer<typeof formSchema>) {
 		const data = await authFetch(
