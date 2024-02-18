@@ -137,6 +137,7 @@ const verify = async (req: any, res: any, next: any) => {
 
 app.get("/api/posts", verify, async (req: AuthenticatedRequest, res) => {
 	const posts = await prisma.post.findMany({ where: { author: { email: req.user.email } } });
+	posts.reverse();
 	return res.status(200).json({ message: "Authorized from Posts Route", user: req.user, posts });
 });
 
