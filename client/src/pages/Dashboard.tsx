@@ -36,7 +36,7 @@ export function Dashboard() {
 
 	useEffect(() => {
 		getPosts();
-	}, [count, user?.iat]);
+	}, [count, Cookie.get("access_token")]);
 
 	async function onSubmit(values: z.infer<typeof formSchema>) {
 		const data = await authFetch(
