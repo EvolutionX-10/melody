@@ -36,7 +36,7 @@ export function Post(props: Props) {
 	const navigate = useNavigate();
 	const [open, setOpen] = useState(false);
 	const isDesktop = useMediaQuery("(min-width: 768px)");
-	const date = new Date(props.createdAt).toLocaleDateString();
+	const date = formatTimeAgo(new Date(props.createdAt));
 
 	async function onDelete() {
 		await authFetch(
@@ -103,11 +103,14 @@ export function Post(props: Props) {
 							</Button>
 						</div>
 					</CardTitle>
-					<CardDescription>{date}</CardDescription>
+					<CardDescription className="-translate-y-2">{date}</CardDescription>
 				</CardHeader>
 				<CardContent className="p-8 px-4">
 					<p>{props.content}</p>
 				</CardContent>
+				<CardFooter className="text-sm bg-blue-100 rounded-b-md pt-2 pb-2 pl-4 text-muted-foreground">
+					{new Intl.DateTimeFormat("en", { dateStyle: "medium" }).format(new Date(props.createdAt))}
+				</CardFooter>
 			</Card>
 		</motion.div>
 	);
@@ -197,6 +200,32 @@ function EditForm(
 			</form>
 		</Form>
 	);
+}
+
+const formatter = new Intl.RelativeTimeFormat(undefined, {
+	numeric: "auto",
+});
+
+const DIVISIONS = [
+	{ amount: 60, name: "seconds" },
+	{ amount: 60, name: "minutes" },
+	{ amount: 24, name: "hours" },
+	{ amount: 7, name: "days" },
+	{ amount: 4.34524, name: "weeks" },
+	{ amount: 12, name: "months" },
+	{ amount: Number.POSITIVE_INFINITY, name: "years" },
+];
+
+function formatTimeAgo(date: Date) {
+	let duration = (date.getTime() - new Date().getTime()) / 1000;
+
+	for (let i = 0; i < DIVISIONS.length; i++) {
+		const division = DIVISIONS[i];
+		if (Math.abs(duration) < division.amount) {
+			return formatter.format(Math.round(duration), division.name as Intl.RelativeTimeFormatUnit);
+		}
+		duration /= division.amount;
+	}
 }
 
 type Props = PType & {

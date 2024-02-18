@@ -17,7 +17,6 @@ export function Dashboard() {
 	const [user, setUser] = useState<User>();
 	const [posts, setPosts] = useState<PType[]>([]);
 	const [count, setCount] = useState(0);
-	const [cookie, setCookie] = useState(Cookie.get("access_token"));
 
 	async function getPosts() {
 		const data = await authFetch("/posts", {}, navigate);
@@ -37,10 +36,7 @@ export function Dashboard() {
 
 	useEffect(() => {
 		getPosts();
-		if (cookie !== Cookie.get("access_token")) {
-			setCookie(Cookie.get("access_token"));
-		}
-	}, [count, cookie]);
+	}, [count]);
 
 	async function onSubmit(values: z.infer<typeof formSchema>) {
 		const data = await authFetch(

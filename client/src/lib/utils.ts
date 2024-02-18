@@ -34,7 +34,8 @@ export async function authFetch(url: string, options: RequestInit, navigate: Fun
 		},
 	});
 	if (res.status === 406) {
-		refreshAccessToken(navigate);
+		await refreshAccessToken(navigate);
+		await authFetch(url, options, navigate);
 	}
 	return res.json();
 }

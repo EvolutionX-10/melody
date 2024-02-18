@@ -97,6 +97,7 @@ const verify = /* @__PURE__ */ __name(async (req, res, next) => {
 }, "verify");
 app.get("/api/posts", verify, async (req, res) => {
   const posts = await prisma.post.findMany({ where: { author: { email: req.user.email } } });
+  posts.reverse();
   return res.status(200).json({ message: "Authorized from Posts Route", user: req.user, posts });
 });
 app.post("/api/posts", verify, async (req, res) => {
