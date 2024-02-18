@@ -91,12 +91,12 @@ export function SignUp() {
 	}
 
 	return (
-		<div className="flex flex-col h-screen w-screen items-center justify-center">
-			<section className="bg-neutral-100 p-16 rounded-lg shadow-lg w-[25rem] max-md:w-[90vw] max-md:p-4">
-				<h1 className="text-blue-600 text-5xl font-medium text-center">Sign Up</h1>
-				<div className="py-16 flex flex-col gap-4 items-center">
+		<div className="flex flex-col h-screen w-screen items-center justify-center bg-background">
+			<section className="bg-primary-foreground p-16 rounded-lg shadow-lg w-[25rem] max-md:w-[90vw] max-md:p-4">
+				<h1 className="text-blue-600 dark:text-blue-500 text-5xl font-medium text-center">Sign Up</h1>
+				<div className="py-4 flex flex-col gap-4 items-center">
 					<Form {...form}>
-						<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 w-full">
+						<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 w-full text-primary">
 							<FormField
 								name="name"
 								control={form.control}

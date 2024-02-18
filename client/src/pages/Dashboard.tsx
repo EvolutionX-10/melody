@@ -64,9 +64,9 @@ export function Dashboard() {
 	}
 
 	return (
-		<div className="w-full flex flex-col items-center justify-center">
-			<nav className="bg-neutral-100 p-4 flex justify-end absolute top-0 w-full">
-				<Button onClick={logout} className="text-white" variant="default">
+		<div className="w-full flex flex-col items-center justify-center bg-background">
+			<nav className="bg-nav p-4 flex justify-end absolute top-0 w-full shadow-md">
+				<Button onClick={logout} className="" variant="secondary">
 					Logout
 				</Button>
 			</nav>

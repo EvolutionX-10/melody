@@ -57,7 +57,7 @@ export function Post(props: Props) {
 			key={props.id}
 			transition={{ duration: 0.5, type: "spring", stiffness: 100 }}
 		>
-			<Card>
+			<Card className="border-primary-foreground">
 				<CardHeader className="p-4">
 					<CardTitle className="text-xl flex items-center justify-between">
 						<span>{props.title}</span>
@@ -108,7 +108,7 @@ export function Post(props: Props) {
 				<CardContent className="p-8 px-4">
 					<p>{props.content}</p>
 				</CardContent>
-				<CardFooter className="text-sm bg-blue-100 rounded-b-md pt-2 pb-2 pl-4 text-muted-foreground">
+				<CardFooter className="text-sm bg-blue-100 dark:bg-slate-300 rounded-b-md pt-2 pb-2 pl-4 text-muted-foreground">
 					{new Intl.DateTimeFormat("en", { dateStyle: "medium" }).format(new Date(props.createdAt))}
 				</CardFooter>
 			</Card>

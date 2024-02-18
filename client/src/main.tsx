@@ -8,6 +8,7 @@ import "./base.css";
 import { Login } from "@/pages/Login.tsx";
 import { SignUp } from "@/pages/SignUp.tsx";
 import { Dashboard } from "@/pages/Dashboard.tsx";
+import { ThemeProvider } from "./components/theme-provider.tsx";
 
 const router = createBrowserRouter([
 	{
@@ -30,7 +31,9 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
 	<>
-		<RouterProvider router={router} />
-		<Toaster />
+		<ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
+			<RouterProvider router={router} />
+			<Toaster />
+		</ThemeProvider>
 	</>
 );
