@@ -15,7 +15,6 @@ export async function refreshAccessToken(navigate: Function) {
 		const data = await res.json();
 		Cookie.set("access_token", data.access_token, { secure: true });
 		toast.success("Token Refreshed");
-		window.location.reload();
 	} else {
 		toast.error("Unauthorized");
 		if (Cookie.get("access_token")) {
