@@ -77,7 +77,7 @@ export function Dashboard() {
 				<PostForm onSubmit={onSubmit} />
 			</div>
 			{posts.length > 0 && (
-				<div className="flex flex-wrap py-24 justify-center w-full items-center gap-8 overflow-hidden">
+				<div className="flex flex-wrap py-4 pb-12 justify-center w-full items-center gap-8 overflow-hidden">
 					<AnimatePresence>
 						{posts.map((post) => (
 							<motion.div
