@@ -71,7 +71,7 @@ export function SignUp() {
 		});
 
 		const data = await res.json();
-		if (data.access_token) Cookie.set("access_token", data.access_token, { expires: 60, secure: true });
+		if (data.access_token) Cookie.set("access_token", data.access_token, { secure: true });
 
 		switch (res.status) {
 			case 200:
