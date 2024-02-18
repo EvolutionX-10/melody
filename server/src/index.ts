@@ -6,7 +6,7 @@ import cookieParser from "cookie-parser";
 import bcrypt from "bcryptjs";
 import { AuthenticatedRequest } from "./types/Request.js";
 
-const EXPIRATION_TIME = 60;
+const EXPIRATION_TIME = 600;
 
 export const app = express();
 const prisma = new PrismaClient();
